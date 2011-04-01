@@ -1,5 +1,20 @@
-Revision history for Perl extension Words2Nums.
+Revision history for Lingua-ID-Words2Nums.
 
-0.01  Tue Jun  1 02:08:50 1999
-	- original version; created by h2xs 1.19
+0.02     2011-04-01
+
+         [INCOMPATIBLE CHANGES]
+
+         - no longer exports by default.
+
+         - sprinkled 5.010 requirements. :p
+
+         [ETC]
+
+         - modernize stuffs (code formatting, add tests, variable names,
+           comments, etc).
+
+
+0.01     1999-06-01
+
+         - original version; created by h2xs 1.19
 
