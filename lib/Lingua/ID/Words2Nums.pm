@@ -221,7 +221,7 @@ __END__
 
 This module provides two functions, B<words2nums> and B<words2nums_simple>. They
 are the counterpart of L<Lingua::ID::Nums2Words>'s B<nums2words> and
-<nums2words_simple>.
+B<nums2words_simple>.
 
 
 =head2 FUNCTIONS
