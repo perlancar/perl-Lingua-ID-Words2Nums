@@ -1,10 +1,11 @@
 package Lingua::ID::Words2Nums;
-# ABSTRACT: Convert Indonesian verbage to number
 
 use 5.010;
 use strict;
 use warnings;
 #use Log::Any qw($log);
+
+# VERSION
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -207,6 +208,7 @@ sub _split_it($) {
 }
 
 1;
+# ABSTRACT: Convert Indonesian verbage to number
 __END__
 
 =head1 SYNOPSIS
