@@ -1,5 +1,13 @@
 Revision history for Lingua-ID-Words2Nums.
 
+0.12     2011-09-15
+
+         [ENHANCEMENTS]
+
+         Handle mixture of numbers and words (e.g. '1,5 juta 13 ribu' ->
+         1513000).
+
+
 0.11     2011-04-01
 
          [ETC]
