@@ -235,7 +235,7 @@ sub _split_it($) {
 }
 
 1;
-# ABSTRACT: Convert Indonesian words (or mixture of numbers and words) to number
+# ABSTRACT: Convert Indonesian verbage to number
 __END__
 
 =head1 SYNOPSIS
@@ -279,5 +279,7 @@ Like B<words2nums>, but can only handle spelled digits (like "one two three" =>
 =head1 SEE ALSO
 
 L<Lingua::ID::Nums2Words>
+
+L<Parse::Number::ID> is used to parse numbers in the verbage.
 
 =cut
