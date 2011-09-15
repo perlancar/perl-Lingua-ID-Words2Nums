@@ -205,7 +205,8 @@ sub _split_it($) {
         ##$log->trace("saw $w");
         if ($w =~ /^([-+]?[0-9.,]+)(\D?.*)$/) {
             my ($n0, $w2) = ($1, $2);
-            my $n = parse_number_id(text => $w);
+            #print "n0=$n0, w2=$w2\n";
+            my $n = parse_number_id(text => $n0);
             unless (defined $n) {
                 unshift @words, 'ERR';
                 last;
@@ -228,6 +229,7 @@ sub _split_it($) {
         }
     }
 
+    #use Data::Dump; dd \@words;
     @words;
 }
 
