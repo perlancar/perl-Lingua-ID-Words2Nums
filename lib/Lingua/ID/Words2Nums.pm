@@ -204,7 +204,7 @@ sub _split_it($) {
 
     for $w (split /\s+/, $words) {
         ##$log->trace("saw $w");
-        if ($w =~ /^([-+]?[0-9.,]+)(\D?.*)$/) {
+        if ($w =~ /^([-+]?[0-9.,]+(?:[Ee][+-]?\d+)?)(\D?.*)$/) {
             my ($n0, $w2) = ($1, $2);
             #print "n0=$n0, w2=$w2\n";
             my $n = parse_number_id(text => $n0);
@@ -235,17 +235,19 @@ sub _split_it($) {
 }
 
 1;
-# ABSTRACT: Convert Indonesian verbage to number
+# ABSTRACT: Convert Indonesian words (or mixture of numbers and words) to number
 __END__
 
 =head1 SYNOPSIS
 
  use Lingua::ID::Words2Nums qw(words2nums words2nums_simple);
 
- print words2nums("seratus dua puluh tiga"); # 123
- print words2nums_simple("satu dua tiga");   # 123
- print words2nums("3 juta 100 ribu");        # 3100000
+ print words2nums("seratus tiga koma dua");  # 103.2
+ print words2nums("minus 3 juta 100 ribu");  # 3100000
  print words2nums("1,605 juta");             # 1605000
+ print words2nums("-1,3e4");                 # 13000
+
+ print words2nums_simple("satu dua tiga");   # 123
 
 
 =head1 DESCRIPTION
