@@ -3,7 +3,7 @@
 use 5.010;
 use strict;
 use warnings;
-use Test::More tests => 34;
+use Test::More;
 
 use Lingua::ID::Words2Nums qw(words2nums words2nums_simple);
 
@@ -17,6 +17,7 @@ my %test_n2w = (
     10.012 => "sepuluh koma nol satu dua",
     11 => "sebelas",
     12 => "dua belas",
+    13 => "3belas",
     21 => "dua puluh satu",
     99 => "sembilan puluh sembilan",
     100 => "seratus",
@@ -25,9 +26,13 @@ my %test_n2w = (
     111 => "seratus sebelas",
     132 => "seratus tiga puluh dua",
     1000 => "seribu",
+    2100 => "2ribu seratus",
+    990002 => "9 ratus 90 ribu 2",
     2000000 => "dua juta",
     2010203 => "dua juta sepuluh ribu dua ratus tiga",
     -2004005 => "negatif dua juta empat ribu lima",
+    9500000 => "9.5 juta",
+    9630100 => "9,60 juta 30 ribu 100",
     3000000000 => "tiga milyar",
     3000000000.009 => "tiga milyar koma nol nol sembilan",
     3123456789 => "tiga milyar seratus dua puluh tiga juta ".
@@ -51,9 +56,13 @@ my %test_n2ws = (
     1 => "satu",
     10 => "satu nol",
     101 => "satu nol satu",
+    12345 => "1 dua 3 4 lima",
+    12346 => "123 empat enam",
     1234567890 => "satu dua tiga empat lima enam tujuh delapan sembilan nol",
 );
 for (sort {abs($a) <=> abs($b)} keys %test_n2ws) {
     ok(words2nums_simple($test_n2ws{$_}) == $_, "simple: $test_n2ws{$_} => $_")
         or diag "result: ".words2nums_simple($test_n2ws{$_});
 }
+
+done_testing();
