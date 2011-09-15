@@ -1,5 +1,12 @@
 Revision history for Lingua-ID-Words2Nums.
 
+0.13     2011-09-15
+
+         [ENHANCEMENTS]
+
+         Handle number in exponent form. Use updated (fixed) Parse::Number::ID.
+
+
 0.12     2011-09-15
 
          [ENHANCEMENTS]
