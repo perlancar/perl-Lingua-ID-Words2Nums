@@ -150,8 +150,9 @@ sub _handle_int($) {
             $seen_digits = 0;
         }
 
-        else{ # must be a multiplier
+        else{ # must be a multiplier, or unknown
             #$log->trace( "saw a multiplier: $w");
+            return undef unless defined $Mults{$w}; # unknown word
             return undef unless @nums; # mistake in writing tens/multiplier
 
             $a = 0; $subtot = 0;
