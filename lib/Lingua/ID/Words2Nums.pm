@@ -259,7 +259,7 @@ __END__
 
  print words2nums("seratus tiga koma dua");  # 103.2
  print words2nums("minus 3 juta 100 ribu");  # 3100000
- print words2nums("1,605 juta");             # 1605000
+ print words2nums("1,605 jt");               # 1605000 (abbreviations accepted)
  print words2nums("-1.3e4");                 # 13000
 
  print words2nums_simple("satu dua tiga");   # 123
