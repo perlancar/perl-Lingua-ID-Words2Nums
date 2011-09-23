@@ -82,6 +82,7 @@ my %test_pat = (
     "tujuh rts delapan plh 5" => 1,
     "7,5 jt rupiah" => 1,
     "0.51 miliar" => 1,
+    "sratus sembilan milyar, 13 juta,enam rtsrb, 100" => 1, # comma
 );
 
 for (sort keys %test_pat) {

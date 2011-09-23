@@ -89,7 +89,7 @@ my $_w = "(?:" . join("|", $Se_Mult_pat,
                       (grep {$_ ne 'se'} sort keys(%Words)),
                       $Parse::Number::ID::Pat,
                   ) . ")";
-our $Pat = qr/(?:$_w(?:\s*$_w)*)/;
+our $Pat = qr/(?:$_w(?:,?\s*$_w)*)/;
 
 sub words2nums($) { _handle_exp(@_) }
 sub words2nums_simple($) { _handle_simple(@_) }
