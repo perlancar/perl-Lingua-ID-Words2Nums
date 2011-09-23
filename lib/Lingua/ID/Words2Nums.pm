@@ -53,7 +53,7 @@ my %Mults = (
     oktodesiliun => 57,
     novemdesiliun => 60,
     vigintiliun => 63,
-    googol => 100,
+    googol => 100, gugol => 100,
     sentiliun => 303,
 );
 
