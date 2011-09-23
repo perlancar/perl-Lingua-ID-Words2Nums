@@ -29,7 +29,10 @@ my %Digits = (
 
 my %Mults = (
     puluh => 1e1, plh => 1e1,
+    lusin => 12,
+    kodi => 20,
     ratus => 1e2, rts => 1e2,
+    gros => 144, gross => 144,
     ribu => 1e3, rb => 1e3,
     juta => 1e6, jt => 1e6,
     milyar => 1e9, milyard => 1e9, miliar => 1e9, miliard => 1e9,
