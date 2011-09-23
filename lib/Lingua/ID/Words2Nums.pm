@@ -11,49 +11,57 @@ require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(words2nums words2nums_simple);
 
-use vars qw(
-               %Digits
-               %Mults
-               %Words
-               $Neg_pat
-               $Exp_pat
-               $Dec_pat
-       );
-
 use Parse::Number::ID qw(parse_number_id);
 use Scalar::Util qw(looks_like_number);
 
-%Digits = (
-    nol => 0, kosong => 0,
-    se => 1, satu => 1,
+my %Digits = (
+    nol => 0, kosong => 0, ksg => 0, ksng => 0,
+    se => 1, satu => 1, st => 1,
     dua => 2,
-    tiga => 3,
-    empat => 4,
-    lima => 5,
-    enam => 6,
-    tujuh => 7,
-    delapan => 8,
-    sembilan => 9,
+    tiga => 3, tg => 3,
+    empat => 4, pat => 4, ampat => 4, mpat => 4,
+    lima => 5, lm => 5,
+    enam => 6, nam => 6,
+    tujuh => 7, tjh => 7,
+    delapan => 8, dlpn => 8, lapan => 8,
+    sembilan => 9, smbln => 9,
 );
 
-%Mults = (
-    puluh => 1e1,
-    ratus => 1e2,
-    ribu => 1e3,
-    juta => 1e6,
+my %Mults = (
+    puluh => 1e1, plh => 1e1,
+    ratus => 1e2, rts => 1e2,
+    ribu => 1e3, rb => 1e3,
+    juta => 1e6, jt => 1e6,
     milyar => 1e9, milyard => 1e9, miliar => 1e9, miliard => 1e9,
     triliun => 1e12, trilyun => 1e12,
 );
 
-%Words = (
-    %Digits,
-    %Mults,
+my %Teen_Words = (
     belas => 0,
+    bls => 0,
 );
 
-$Neg_pat  = '(?:negatif|min|minus)';
-$Exp_pat  = '(?:(?:di)?kali(?:kan)? sepuluh pangkat)';
-$Dec_pat  = '(?:koma|titik)';
+my %Words = (
+    %Digits, %Mults, %Teen_Words,
+);
+
+my %Se = ("se" => 0, "s" => 0);
+
+# words that can be used with se- (or single digit), e.g. sebelas, tiga belas,
+# sepuluh, seratus, dua ratus, ...
+my %Se_Words = (
+    %Mults, %Teen_Words,
+);
+
+
+my $Neg_pat  = qr/(?:negatif|ngtf|min|minus|mns)/;
+my $Exp_pat  = qr/(?:(?:di)?\s*(?:kali|kl)(?:kan)?\s+(?:sepuluh|splh)
+                      \s+(?:pangkat|pkt|pngkt))/x;
+my $Dec_pat  = qr/(?:koma|km|titik|ttk)/;
+my $Teen_pat = "(?:".join("|", keys %Teen_Words).")";
+my $Mult_pat = "(?:" . join("|", keys %Se_Words).")";
+my $Se_Mult_pat = "(?:(" . join("|", keys %Se).")".
+    "(" . join("|", keys %Se_Words) . "))";
 
 sub words2nums($) { _handle_exp(@_) }
 sub words2nums_simple($) { _handle_simple(@_) }
@@ -143,7 +151,7 @@ sub _handle_int($) {
             $seen_digits = 1;
         }
 
-        elsif( $w eq 'belas' ) { # special case, teens (belasan)
+        elsif( $w =~ /^$Teen_pat$/ ) { # special case, teens (belasan)
             #$log->trace("saw a teen: $w");
             return undef unless $seen_digits; # mistake in writing teens
             push @nums, 10 + pop @nums;
@@ -215,10 +223,10 @@ sub _split_it($) {
             push @words, $n;
             push @words, $w2 if length($w2);
         }
-        elsif( $w =~ /^se(.+)$/ and defined $Words{$1} ) {
+        elsif( $w =~ /^$Se_Mult_pat$/ and defined $Words{$1} ) {
             #$log->trace("i should split $w");
-            push @words, 'se', $1 }
-        elsif( $w =~ /^(.+)(belas|puluh|ratus|ribu|juta|mil[iy]ard?|tril[iy]un)$/ and defined $Words{$1} ) {
+            push @words, $1, $2 }
+        elsif( $w =~ /^(.+)\s+($Mult_pat)$/ and defined $Words{$1} ) {
             #$log->trace("i should split $w");
             push @words, $1, $2 }
         elsif( defined $Words{$w} ) {
