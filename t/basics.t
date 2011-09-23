@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Test::More;
 
-use Lingua::ID::Words2Nums qw(words2nums words2nums_simple);
+use Lingua::ID::Words2Nums qw(words2nums words2nums_simple $Pat);
 
 my %test_n2w = (
     0 => "nol",
@@ -69,6 +69,27 @@ my %test_n2ws = (
 for (sort {abs($a) <=> abs($b)} keys %test_n2ws) {
     ok(words2nums_simple($test_n2ws{$_}) == $_, "simple: $test_n2ws{$_} => $_")
         or diag "result: ".words2nums_simple($test_n2ws{$_});
+}
+
+my %test_pat = (
+    "enam" => 1,
+    "tujuh puluh tujuh" => 1,
+    "tujuhpuluhtujuh" => 1,
+    "tjhratusratus ratus" => 1,
+    "setujuh" => 0,
+    "se tujuh" => 1,
+    "tujuh rts delapan plh 5" => 1,
+    "7,5 jt rupiah" => 1,
+    "0.51 miliar" => 1,
+);
+
+for (sort keys %test_pat) {
+    my $match = $_ =~ /\b$Pat\b/;
+    if ($test_pat{$_}) {
+        ok($match, "'$_' matches");
+    } else {
+        ok(!$match, "'$_' doesn't match");
+    }
 }
 
 done_testing();

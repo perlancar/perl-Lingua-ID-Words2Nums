@@ -9,7 +9,7 @@ use warnings;
 
 require Exporter;
 our @ISA       = qw(Exporter);
-our @EXPORT_OK = qw(words2nums words2nums_simple);
+our @EXPORT_OK = qw(words2nums words2nums_simple $Pat);
 
 use Parse::Number::ID qw(parse_number_id);
 use Scalar::Util qw(looks_like_number);
@@ -53,15 +53,22 @@ my %Se_Words = (
     %Mults, %Teen_Words,
 );
 
-
 my $Neg_pat  = qr/(?:negatif|ngtf|min|minus|mns)/;
 my $Exp_pat  = qr/(?:(?:di)?\s*(?:kali|kl)(?:kan)?\s+(?:sepuluh|splh)
                       \s+(?:pangkat|pkt|pngkt))/x;
 my $Dec_pat  = qr/(?:koma|km|titik|ttk)/;
-my $Teen_pat = "(?:".join("|", keys %Teen_Words).")";
-my $Mult_pat = "(?:" . join("|", keys %Se_Words).")";
-my $Se_Mult_pat = "(?:(" . join("|", keys %Se).")".
-    "(" . join("|", keys %Se_Words) . "))";
+my $Teen_pat = "(?:".join("|", sort keys %Teen_Words).")";
+my $Mult_pat = "(?:" . join("|", sort keys %Se_Words).")";
+my $Se_pat   = "(?:" . join("|", sort keys %Se).")";
+my $Se_Mult_pat = "(?:(?:" . join("|", sort keys %Se).")".
+    "(?:" . join("|", sort keys %Se_Words) . "))";
+
+# quick pattern for extracting words ;
+my $_w = "(?:" . join("|", $Se_Mult_pat,
+                      (grep {$_ ne 'se'} sort keys(%Words)),
+                      $Parse::Number::ID::Pat,
+                  ) . ")";
+our $Pat = qr/(?:$_w(?:\s*$_w)*)/;
 
 sub words2nums($) { _handle_exp(@_) }
 sub words2nums_simple($) { _handle_simple(@_) }
@@ -223,7 +230,7 @@ sub _split_it($) {
             push @words, $n;
             push @words, $w2 if length($w2);
         }
-        elsif( $w =~ /^$Se_Mult_pat$/ and defined $Words{$1} ) {
+        elsif( $w =~ /^($Se_pat)($Mult_pat)$/ and defined $Words{$1} ) {
             #$log->trace("i should split $w");
             push @words, $1, $2 }
         elsif( $w =~ /^(.+)\s+($Mult_pat)$/ and defined $Words{$1} ) {
@@ -264,6 +271,16 @@ This module provides two functions, B<words2nums> and B<words2nums_simple>. They
 are the counterpart of L<Lingua::ID::Nums2Words>'s B<nums2words> and
 B<nums2words_simple>.
 
+
+=head1 VARIABLES
+
+None are exported by default, but they are exportable.
+
+=head2 $Pat (REGEX)
+
+A regex for quickly matching/extracting verbage from text; it looks for a string
+of words. It's not perfect (the extracted verbage might not be valid, e.g. "ribu
+tiga"), but it's simple and fast.
 
 =head2 FUNCTIONS
 
