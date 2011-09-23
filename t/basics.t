@@ -11,6 +11,7 @@ my %test_n2w = (
     0 => "nol",
     1 => "satu",
     -1 => "negatif satu",
+    2 => "positif dua",
     10 => "sepuluh",
     10.1 => "sepuluh koma satu",
     10.01 => "sepuluh koma nol satu",
@@ -27,6 +28,7 @@ my %test_n2w = (
     15.25 => "1,525e-1 ratus",
     21 => "dua puluh satu",
     40 => "dua kodi",
+    50 => "dua koma lima kodi",
     99 => "sembilan puluh sembilan",
     100 => "seratus",
     101 => "seratus satu",
@@ -86,6 +88,7 @@ my %test_pat = (
     "7,5 jt rupiah" => 1,
     "0.51 miliar" => 1,
     "sratus sembilan milyar, 13 juta,enam rtsrb, 100" => 1, # comma
+    "tujuh koma lima kodi" => 1,
 );
 
 for (sort keys %test_pat) {
