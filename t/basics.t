@@ -45,6 +45,7 @@ my %test_n2w = (
         "empat ratus lima puluh enam ribu tujuh ratus delapan puluh sembilan",
     -4000000000000 => "negatif empat triliun",
     994000000000000 => "sembilan ratus sembilan puluh empat triliun",
+    9100000000000000 => "sembilan kuadriliun seratus triliun",
 
     "5.4e6" => "lima koma empat kali sepuluh pangkat enam",
     "-5.4e6" => "negatif lima koma empat kali sepuluh pangkat enam",

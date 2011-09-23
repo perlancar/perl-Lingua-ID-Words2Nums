@@ -34,6 +34,27 @@ my %Mults = (
     juta => 1e6, jt => 1e6,
     milyar => 1e9, milyard => 1e9, miliar => 1e9, miliard => 1e9,
     triliun => 1e12, trilyun => 1e12,
+
+    # -yun / kw- / etc variants?
+    kuadriliun => 1e15,
+    kuintiliun => 18,
+    sekstiliun => 21,
+    septiliun => 24,
+    oktiliun => 27,
+    noniliun => 30,
+    desiliun => 33,
+    undesiliun => 36,
+    duodesiliun => 39,
+    tredesiliun => 42,
+    kuatuordesiliun => 45,
+    kuindesiliun => 48,
+    seksdesiliun => 51,
+    septendesiliun => 54,
+    oktodesiliun => 57,
+    novemdesiliun => 60,
+    vigintiliun => 63,
+    googol => 100,
+    sentiliun => 303,
 );
 
 my %Teen_Words = (
