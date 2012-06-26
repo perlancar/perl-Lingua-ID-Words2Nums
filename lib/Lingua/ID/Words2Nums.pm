@@ -7,6 +7,8 @@ use warnings;
 
 # VERSION
 
+our %SPEC;
+
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(words2nums words2nums_simple $Pat);
@@ -77,6 +79,7 @@ my %Se_Words = (
     %Mults, %Teen_Words,
 );
 
+my $Pos_pat  = qr/(?:positif|plus|pos)/;
 my $Neg_pat  = qr/(?:negatif|ngtf|min|minus|mns)/;
 my $Exp_pat  = qr/(?:(?:di)?\s*(?:kali|kl)(?:kan)?\s+(?:sepuluh|splh)
                       \s+(?:pangkat|pkt|pngkt))/x;
@@ -94,7 +97,53 @@ my $_w = "(?:" . join("|", $Se_Mult_pat,
                   ) . ")";
 our $Pat = qr/(?:$_w(?:,?\s*$_w)*)/;
 
+$SPEC{words2nums} = {
+    v => 1.1,
+    summary => 'Convert Indonesian verbage to number',
+    description => <<'_',
+
+Parse Indonesian verbage and return number, or undef if failed (unknown verbage
+or 'syntax error'). In English, this is equivalent to converting "one hundred
+and twenty three" to 123. Currently can handle real numbers in normal and
+scientific form in the order of hundreds of trillions.
+
+Will produce unexpected result if you feed it stupid verbage.
+
+_
+    args => {
+        str => {
+            schema => 'str*',
+            summary => 'The verbage to convert',
+            req => 1,
+            pos => 0,
+        },
+    },
+    args_as => 'array',
+    result_naked => 1,
+};
 sub words2nums($) { _handle_exp(@_) }
+
+$SPEC{words2nums_simple} = {
+    v => 1.1,
+    summary => 'Like words2nums, but can only parse sequence of digits',
+    description => <<'_',
+
+In English, this is equivalent to converting "one two three" to 123.
+
+Will produce unexpected result if you feed it stupid verbage.
+
+_
+    args => {
+        str => {
+            schema => 'str*',
+            summary => 'The verbage to convert',
+            req => 1,
+            pos => 0,
+        },
+    },
+    args_as => 'array',
+    result_naked => 1,
+};
 sub words2nums_simple($) { _handle_simple(@_) }
 
 sub _handle_exp($) {
@@ -124,6 +173,12 @@ sub _handle_neg($) {
     if( $words =~ /^\s*$Neg_pat\s+(.+)/ ) {
         #$log->trace("it's negative");
         $num1 = -_handle_dec($1);
+        not defined $num1 and return undef;
+        #$log->trace("num1 = $num1");
+        return $num1;
+    } elsif( $words =~ /^\s*$Pos_pat\s+(.+)/ ) {
+        #$log->trace("it's positif");
+        $num1 = _handle_dec($1);
         not defined $num1 and return undef;
         #$log->trace("num1 = $num1");
         return $num1;
@@ -305,24 +360,6 @@ None are exported by default, but they are exportable.
 A regex for quickly matching/extracting verbage from text; it looks for a string
 of words. It's not perfect (the extracted verbage might not be valid, e.g. "ribu
 tiga"), but it's simple and fast.
-
-=head2 FUNCTIONS
-
-None are exported, but they are exportable.
-
-=head2 words2nums(STR) => NUM|undef
-
-Parse Indonesian verbage and return number, or undef if failed (unknown verbage
-or 'syntax error'). In English, this is equivalent to converting "one hundred
-and twenty three" to 123. Currently can handle real numbers in normal and
-scientific form in the order of hundreds of trillions.
-
-Will produce unexpected result if you feed it stupid verbage.
-
-=head2 words2nums_simple(STR) => NUM|undef
-
-Like B<words2nums>, but can only handle spelled digits (like "one two three" =>
-123 in English).
 
 
 =head1 SEE ALSO
