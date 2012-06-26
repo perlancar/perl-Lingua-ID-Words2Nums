@@ -26,6 +26,7 @@ my %test_n2w = (
     -14.24 => "-14.24",
     15.24 => "1,524e+1",
     15.25 => "1,525e-1 ratus",
+#    20 => "duapuluh", # currently unparsable
     21 => "dua puluh satu",
     40 => "dua kodi",
 #    50 => "dua koma lima kodi", # currently unparsable
