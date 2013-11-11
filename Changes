@@ -16,7 +16,9 @@ Revision history for Lingua-ID-Words2Nums
          [ENHANCEMENTS]
 
          - Support abbreviations ('tjh plh jt' => 'tujuh puluh juta')
+
          - Support very large numbers (until sentiliun and gugol)
+
          - Provide $Pat
 
 
@@ -24,15 +26,16 @@ Revision history for Lingua-ID-Words2Nums
 
          [ENHANCEMENTS]
 
-         Handle number in exponent form. Use updated (fixed) Parse::Number::ID.
+         - Handle number in exponent form. Use updated (fixed)
+           Parse::Number::ID.
 
 
 0.12     2011-09-15 (SHARYANTO)
 
          [ENHANCEMENTS]
 
-         Handle mixture of numbers and words (e.g. '1,5 juta 13 ribu' ->
-         1513000).
+         - Handle mixture of numbers and words (e.g. '1,5 juta 13 ribu' ->
+           1513000).
 
 
 0.11     2011-04-01 (SHARYANTO)
@@ -61,4 +64,3 @@ Revision history for Lingua-ID-Words2Nums
 0.01     1999-06-01 (SHARYANTO)
 
          - original version; created by h2xs 1.19
-
