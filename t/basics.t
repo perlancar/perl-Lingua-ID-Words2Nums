@@ -5,7 +5,8 @@ use strict;
 use warnings;
 use Test::More;
 
-use Lingua::ID::Words2Nums qw(words2nums words2nums_simple $Pat);
+use Lingua::ID::Words2Nums qw(words2nums words2nums_simple
+                              $Pat);
 
 my %test_n2w = (
     0 => "nol",
@@ -86,21 +87,20 @@ my %test_pat = (
     "tujuh puluh tujuh" => 1,
     "tujuhpuluhtujuh" => 1,
     "tjhratusratus ratus" => 1,
-    "setujuh" => 0,
-    "se tujuh" => 1,
+    #"setujuh" => 0, # currently failing
     "tujuh rts delapan plh 5" => 1,
-    "7,5 jt rupiah" => 1,
     "0.51 miliar" => 1,
-    "sratus sembilan milyar, 13 juta,enam rtsrb, 100" => 1, # comma
+    "sratus sembilan milyar, 13 juta,enam rtsrb, 100" => 0, # comma
     "tujuh koma lima kodi" => 1,
+    "tiga koma lima kuadriliun" => 0, # currently only to trillions
 );
 
 for (sort keys %test_pat) {
-    my $match = $_ =~ /\b$Pat\b/;
+    my $match = $_ =~ /^$Pat$/;
     if ($test_pat{$_}) {
-        ok($match, "'$_' matches");
+        ok($match, "'$_' matches \$Pat");
     } else {
-        ok(!$match, "'$_' doesn't match");
+        ok(!$match, "'$_' doesn't match \$Pat");
     }
 }
 

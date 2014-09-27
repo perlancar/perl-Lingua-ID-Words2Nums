@@ -1,11 +1,12 @@
 package Lingua::ID::Words2Nums;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
 #use Log::Any qw($log);
-
-# VERSION
 
 our %SPEC;
 
@@ -29,7 +30,7 @@ my %Digits = (
     sembilan => 9, smbln => 9,
 );
 
-my %Mults = (
+my %Small_Mults = (
     puluh => 1e1, plh => 1e1,
     lusin => 12,
     kodi => 20,
@@ -75,12 +76,22 @@ my %Words = (
     %Digits, %Mults, %Teen_Words,
 );
 
+# doesn't contain big multipliers (usually only used in scientific and not in
+# daily common text)
+my %Words2 = (
+    %Digits, %Small_Mults, %Teen_Words,
+);
+
 my %Se = ("se" => 0, "s" => 0);
 
 # words that can be used with se- (or single digit), e.g. sebelas, tiga belas,
 # sepuluh, seratus, dua ratus, ...
 my %Se_Words = (
     %Mults, %Teen_Words,
+);
+
+my %Se_Words2 = (
+    %Small_Mults, %Teen_Words,
 );
 
 my $Pos_pat  = qr/(?:positif|plus|pos)/;
@@ -93,13 +104,21 @@ my $Mult_pat = "(?:" . join("|", sort keys %Se_Words).")";
 my $Se_pat   = "(?:" . join("|", sort keys %Se).")";
 my $Se_Mult_pat = "(?:(?:" . join("|", sort keys %Se).")".
     "(?:" . join("|", sort keys %Se_Words) . "))";
+my $Se_Mult_pat2 = "(?:(?:" . join("|", sort keys %Se).")".
+    "(?:" . join("|", sort keys %Se_Words2) . "))";
 
-# quick pattern for extracting words ;
-my $_w = "(?:" . join("|", $Se_Mult_pat,
-                      (grep {$_ ne 'se'} sort keys(%Words)),
-                      $Parse::Number::ID::Pat,
-                  ) . ")";
-our $Pat = qr/(?:$_w(?:,?\s*$_w)*)/;
+# quick pattern for extracting words
+# neg_pat? (num + mult)+
+our $Pat = join(
+    "",
+    '(?:(?:', "\n",
+    '  (?:', $Neg_pat, '\s*)?', " # opt: negative\n",
+    '  (?:', '(?:', join("|", sort(keys(%Se),keys(%Digits))), ')|', $Parse::Number::ID::Pat, ')', " # num\n",
+    '  (?:', '\s*', $Dec_pat, '\s*', '(?:', join("|", sort keys %Digits), '\s*)+', ')?', " # opt: decimal\n",
+    '  (?:', '\s*', '(?:', join("|", sort keys %Small_Mults), ')', '){0,3}', " # opt: mult\n",
+    '\s*)+)',
+);
+$Pat  = qr/$Pat/x;
 
 $SPEC{words2nums} = {
     v => 1.1,
@@ -355,15 +374,18 @@ are the counterpart of L<Lingua::ID::Nums2Words>'s B<nums2words> and
 B<nums2words_simple>.
 
 
-=head1 VARIABLES
+=head1 EXPORTS
 
 None are exported by default, but they are exportable.
 
-=head2 $Pat (REGEX)
+=head2 $Pat (regex)
 
 A regex for quickly matching/extracting verbage from text; it looks for a string
-of words. It's not perfect (the extracted verbage might not be valid, e.g. "ribu
-tiga"), but it's simple and fast.
+of words. It's not perfect (improper verbage might be allowed, e.g. "dua ribu
+tiga juta"), but it's convenient.
+
+Currently only multipliers up to trillions ("triliun") are recognized. Bigger
+multipliers are usually only found in scientific text.
 
 
 =head1 SEE ALSO
