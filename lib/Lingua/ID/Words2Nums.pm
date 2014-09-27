@@ -39,28 +39,32 @@ my %Mults = (
     juta => 1e6, jt => 1e6,
     milyar => 1e9, milyard => 1e9, miliar => 1e9, miliard => 1e9,
     triliun => 1e12, trilyun => 1e12,
+);
 
+my %Big_Mults = (
     # -yun / kw- / etc variants?
     kuadriliun => 1e15,
-    kuintiliun => 18,
-    sekstiliun => 21,
-    septiliun => 24,
-    oktiliun => 27,
-    noniliun => 30,
-    desiliun => 33,
-    undesiliun => 36,
-    duodesiliun => 39,
-    tredesiliun => 42,
-    kuatuordesiliun => 45,
-    kuindesiliun => 48,
-    seksdesiliun => 51,
-    septendesiliun => 54,
-    oktodesiliun => 57,
-    novemdesiliun => 60,
-    vigintiliun => 63,
-    googol => 100, gugol => 100,
-    sentiliun => 303,
+    kuintiliun => 1e18,
+    sekstiliun => 1e21,
+    septiliun => 1e24,
+    oktiliun => 1e27,
+    noniliun => 1e30,
+    desiliun => 1e33,
+    undesiliun => 1e36,
+    duodesiliun => 1e39,
+    tredesiliun => 1e42,
+    kuatuordesiliun => 1e45,
+    kuindesiliun => 1e48,
+    seksdesiliun => 1e51,
+    septendesiliun => 1e54,
+    oktodesiliun => 1e57,
+    novemdesiliun => 1e60,
+    vigintiliun => 1e63,
+    googol => 1e100, gugol => 1e100,
+    sentiliun => 1e303,
 );
+
+my %Mults = (%Small_Mults, %Big_Mults);
 
 my %Teen_Words = (
     belas => 0,
