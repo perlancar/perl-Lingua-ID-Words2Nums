@@ -84,6 +84,8 @@ for (sort {abs($a) <=> abs($b)} keys %test_n2ws) {
 
 my %test_pat = (
     "enam" => 1,
+    "koma lima" => 0,
+    "lima koma juta" => 0,
     "tujuh puluh tujuh" => 1,
     "tujuhpuluhtujuh" => 1,
     "tjhratusratus ratus" => 1,
