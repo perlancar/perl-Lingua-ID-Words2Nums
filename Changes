@@ -1,5 +1,12 @@
 Revision history for Lingua-ID-Words2Nums
 
+0.16     2014-09-28 (PERLANCAR)
+
+         - Fix big multiplier values.
+
+         - Fix/tweak $Pat so it's more discriminating.
+
+
 0.15     2012-06-26 (SHARYANTO)
 
          [ENHANCEMENTS]
