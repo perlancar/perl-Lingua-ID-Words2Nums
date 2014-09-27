@@ -380,9 +380,9 @@ None are exported by default, but they are exportable.
 
 =head2 $Pat (regex)
 
-A regex for quickly matching/extracting verbage from text; it looks for a string
-of words. It's not perfect (improper verbage might be allowed, e.g. "dua ribu
-tiga juta"), but it's convenient.
+A regex for quickly matching/extracting number verbage from text; it looks for a
+string of words. It's not perfect (improper verbage might be allowed, e.g. "dua
+ribu tiga juta"), but it's convenient.
 
 Currently only multipliers up to trillions ("triliun") are recognized. Bigger
 multipliers are usually only found in scientific text.
