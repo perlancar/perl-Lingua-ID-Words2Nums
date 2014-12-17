@@ -352,8 +352,7 @@ sub _split_it($) {
 }
 
 1;
-# ABSTRACT: Convert Indonesian verbage to number
-__END__
+# ABSTRACT:
 
 =head1 SYNOPSIS
 
